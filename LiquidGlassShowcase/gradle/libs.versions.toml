@@ -1,0 +1,26 @@
+[versions]
+agp = "9.3.2"
+kotlin = "2.4.10"
+coreKtx = "1.19.0"
+activityCompose = "1.13.0"
+compose = "1.12.0"
+# Liquid Glass engine: Kyant0/AndroidLiquidGlass (Backdrop 2.0.0)
+backdrop = "2.0.0"
+# Transitive runtime dependency of backdrop 2.0.0 (transitive, declared explicitly)
+kyantShapes = "1.2.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "compose" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
+compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "compose" }
+compose-material-ripple = { group = "androidx.compose.material", name = "material-ripple", version.ref = "compose" }
+backdrop = { group = "io.github.kyant0", name = "backdrop", version.ref = "backdrop" }
+kyant-shapes = { group = "io.github.kyant0", name = "shapes", version.ref = "kyantShapes" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

@@ -1,0 +1,33 @@
+# =============================================================================
+# Apple Liquid Glass · repository ignore rules
+# =============================================================================
+# This repo commits only "source + docs"; no build artifacts are committed.
+# To see the effect, build it yourself; see docs/07-Build-and-Troubleshooting.md
+# =============================================================================
+
+# ---- Build artifacts (most important rule: no APK in the repo) ----
+*.apk
+*.aab
+*.ap_
+*.dex
+*.jks.release
+
+# ---- Gradle ----
+.gradle/
+build/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+kotlin-js-store/
+
+# ---- Local environment (differs per machine; never commit) ----
+local.properties
+gradle.properties.local
+
+# ---- IDE / OS ----
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+*.hprof
