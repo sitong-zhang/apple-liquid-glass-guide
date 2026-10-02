@@ -7,7 +7,7 @@
 > Every conclusion comes from a real, end-to-end development process that ran through to a compiled APK (Jetpack Compose + Backdrop 2.0.0).
 > Every parameter, every line of code, and every pitfall in this document has been verified in practice, not guessed.
 >
-> Last updated: 2026-10-01
+> Last updated: 2026-10-03
 
 ---
 
@@ -94,6 +94,11 @@ experiments/                      ← you are here
 │   ├── 06-Icons-and-Asset-Pipeline.md            ← Assets: how to use ui-icons-hub (with the real "Apple app-icon zoning" list)
 │   ├── 07-Build-and-Troubleshooting.md           ← Engineering: environment, build commands, all errors and fixes
 │   └── 08-Previous-Handover-Notes.md             ← History: full conversation handover from the previous round (26-component showcase), kept for reference
+│   └── 09-Practitioner-Notes.md                   ← Field notes: what 01–08 got wrong once shipped, + how to drop real glass onto a full iOS-style shell
+├── assets/
+│   └── app-icons/                                 ← 40 real Apple-style app icons (PNG) pulled from ui-icons-hub, + manifest + fetch script
+├── tools/
+│   └── fetch_app_icons.py                         ← re-download the icon manifest and any icon, reproducibly
 └── LiquidGlassShowcase/          ← complete compilable project (Jetpack Compose)
 ```
 
@@ -228,8 +233,9 @@ For concrete values see `docs/04-Material-Recipe-Table.md`.
 - **Never touched it before** → read `01` Optical Model → `02` Architecture → `03` API → copy the code from `03.2/03.3`
 - **Just want the parameters** → go straight to `04-Material-Recipe-Table.md`
 - **Building a full app** → see `05-iOS-Shell-in-Practice.md`, which has the layered diagram of the whole iOS shell
-- **Need icons** → `06-Icons-and-Asset-Pipeline.md` (includes the real inventory of Apple icons from ui-icons-hub)
+- **Need icons** → `06-Icons-and-Asset-Pipeline.md` (includes the real inventory of Apple icons from ui-icons-hub), and the ready-to-ship `assets/app-icons/png/`
 - **Build failing** → `07-Build-and-Troubleshooting.md`
+- **Want the hard-won lessons** → `09-Practitioner-Notes.md`: what turned out wrong, and the full recipe for an Apple-system demo (lock screen → home → open app → zoom-to-icon close → light/dark wallpaper → real app icons)
 
 ---
 
