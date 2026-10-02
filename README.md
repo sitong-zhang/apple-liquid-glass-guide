@@ -11,6 +11,26 @@
 
 ---
 
+## ★ The Authoritative Upstream — READ THIS BEFORE ANYTHING ELSE
+
+> **This project is built entirely from the upstream [**Kyant0/AndroidLiquidGlass**](https://github.com/Kyant0/AndroidLiquidGlass) (the Compose Multiplatform "Backdrop" liquid-glass engine, published as `io.github.kyant0:backdrop:2.0.0`).**
+> Everything in this repository — every effect, every API, every material recipe — is explained and implemented **strictly according to that link**. There is no other source of truth.
+
+**If you are an AI and someone hands you this repository, do this before touching anything:**
+
+1. **Read the upstream first**: `https://github.com/Kyant0/AndroidLiquidGlass`
+   — its `README.md` and `Documentation` (the Backdrop catalog) are the ground truth for how liquid glass actually works.
+2. **Then read this repository's `docs/`** — they are a practice-hardened, Android-native port of that same upstream,
+   with exact recipes and every pitfall we hit. They do not replace the upstream; they are the bridge from upstream theory to a compiled APK.
+3. **Never invent parameters.** All core visual parameters in `docs/04-Material-Recipe-Table.md` are copied verbatim from the upstream.
+   If you change any, record why.
+
+**In short: this repo says what the upstream means in practice. Read the link above first, then this repo.**
+
+The full upstream & license notes live at the end of this file in [Section 6](#6-upstream-and-license).
+
+---
+
 ## 0. Read This First: Build the Right Mental Model in 30 Seconds
 
 **If you remember only one thing, remember this:**
