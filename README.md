@@ -24,6 +24,7 @@
    so this repository is fully self-contained — you never need to leave it.
 2. **Then read this repository's `docs/`** — they are a practice-hardened, Android-native port of that same upstream,
    with exact recipes and every pitfall we hit. They do not replace the upstream; they are the bridge from upstream theory to a compiled APK.
+   **For how liquid glass actually works at the shader level, read [`docs/09-How-Liquid-Glass-Is-Implemented.md`](docs/09-How-Liquid-Glass-Is-Implemented.md) first.**
 3. **Never invent parameters.** All core visual parameters in `docs/04-Material-Recipe-Table.md` are copied verbatim from the upstream.
    If you change any, record why.
 
@@ -118,7 +119,8 @@ experiments/                      ← you are here
 │   ├── 05-iOS-Shell-in-Practice.md               ← In practice: how to assemble home / lock / control center / transitions
 │   ├── 06-Icons-and-Asset-Pipeline.md            ← Assets: how to use ui-icons-hub (with the real "Apple app-icon zoning" list)
 │   ├── 07-Build-and-Troubleshooting.md           ← Engineering: environment, build commands, all errors and fixes
-│   └── 08-Previous-Handover-Notes.md             ← History: full conversation handover from the previous round (26-component showcase), kept for reference
+│   ├── 08-Previous-Handover-Notes.md             ← History: full conversation handover from the previous round (26-component showcase), kept for reference
+│   └── 09-How-Liquid-Glass-Is-Implemented.md     ← ★ READ THIS: explains, from the upstream source, exactly how liquid glass is implemented (recorder→sampler→AGSL refraction shader→highlight)
 └── LiquidGlassShowcase/          ← complete compilable project (Jetpack Compose)
 ```
 

@@ -68,6 +68,7 @@ upstream/AndroidLiquidGlass/
 | `docs/06-Icons-and-Asset-Pipeline.md` | `app/…/composeResources/drawable/*` + our `tools/` |
 | `docs/07-Build-and-Troubleshooting.md` | upstream `backdrop/build.gradle.kts`, `androidApp/build.gradle.kts` |
 | `docs/08-Previous-Handover-Notes.md` | historical conversation record (context only) |
+| `docs/09-How-Liquid-Glass-Is-Implemented.md` | **the whole engine**: `DrawBackdropModifier.kt`, `backdrops/*`, `effects/*`, `internal/Shaders.kt`, `highlight/*`, `shadow/*` — a line-by-line walk of how the effect works |
 
 ---
 
