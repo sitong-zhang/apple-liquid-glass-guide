@@ -20,6 +20,8 @@
 
 1. **Read the upstream first**: `https://github.com/Kyant0/AndroidLiquidGlass`
    — its `README.md` and `Documentation` (the Backdrop catalog) are the ground truth for how liquid glass actually works.
+   **A complete verbatim copy of that upstream is archived here at [`upstream/AndroidLiquidGlass/`](upstream/AndroidLiquidGlass/)** (see [`UPSTREAM-README.md`](UPSTREAM-README.md)),
+   so this repository is fully self-contained — you never need to leave it.
 2. **Then read this repository's `docs/`** — they are a practice-hardened, Android-native port of that same upstream,
    with exact recipes and every pitfall we hit. They do not replace the upstream; they are the bridge from upstream theory to a compiled APK.
 3. **Never invent parameters.** All core visual parameters in `docs/04-Material-Recipe-Table.md` are copied verbatim from the upstream.
@@ -105,6 +107,9 @@ So the whole tech stack has just three steps:
 ```
 experiments/                      ← you are here
 ├── README.md                     ← this document (the overview; read this first)
+├── UPSTREAM-README.md            ← the authoritative-upstream archive guide (see below)
+├── upstream/
+│   └── AndroidLiquidGlass/       ← ★ complete verbatim copy of Kyant0/AndroidLiquidGlass (the real engine source)
 ├── docs/
 │   ├── 01-Optical-Model-of-Liquid-Glass.md      ← Principle: what refraction / dispersion / blur / highlight / shadow actually compute
 │   ├── 02-Backdrop-Layered-Architecture.md      ← Architecture: LayerBackdrop / Combined / coordinate space / feedback prevention
