@@ -59,9 +59,15 @@ how to read Compose foundation shapes:
 > `RoundedRectangle`) crashed with the stack above. So `Capsule` appears to implement `CornerBasedShape`
 > and is safe with `lens`. To stay 100% safe, prefer `RoundedCornerShape(...)` of the same radius whenever
 > `lens()` is present — but if you only have a capsule, `Capsule` works.
+>
+> **G2 squircle with `lens()` — confirmed from the upstream source.** The kyant G2-continuous class
+> `com.kyant.shapes.RoundedRectangularShape` (note the name: **`RoundedRectangularShape`, not `RoundedRectangle`**)
+> is *also* accepted by `lens()` — it is matched by the first `when` branch in `effects/Lens.kt:64`. So if you
+> want Apple's G2 corners **and** real refraction, use `com.kyant.shapes.RoundedRectangularShape`; reserve plain
+> `RoundedCornerShape` for when G2 continuity doesn't matter. `RoundedRectangle` is the *only* kyant shape that crashes.
 
 This directly contradicts the "always use kyant `RoundedRectangle`" advice in README §1 Rule 10,
-README §3.3, docs/03 §3 & §9, and docs/09 §2.3 & defect #4. Those passages are correct **for `clip()`
+README §3.3, docs/03 §3 & §9, and docs/09-Practitioner-Notes.md §2.3 & defect #4. Those passages are correct **for `clip()`
 and for blur/vibrancy glass**, but they are **wrong and crash-producing** when the same shape is handed
 to `drawBackdrop` **with `lens()`**. The inline corrections to those passages were made in this same
 commit (see §1.5).
@@ -273,7 +279,7 @@ trick.
 > library — converted to an Android vector drawable — never hand-coded paths.**
 
 Hand-drawn paths read as "a developer's placeholder" instantly, the same way a procedural wallpaper
-does (docs/09 §1.1). A real icon library gives you correct stroke weights, caps, and optical balance
+does (docs/09-Practitioner-Notes.md §1.1). A real icon library gives you correct stroke weights, caps, and optical balance
 for free.
 
 ### 3.2 The resource we found and used: Tabler Icons
@@ -306,7 +312,7 @@ drawable with no pathData changes.
 3. Pull the individual SVG from **`unpkg.com/@scope/pkg@version/path`** (jsDelivr/raw GitHub may be
    blocked in restricted networks — unpkg was reachable here).
 4. Convert to `res/drawable/*.xml`, tint at runtime with `ColorFilter.tint(...)`.
-5. Record provenance + licence in `NOTICE` (docs/09 §8 checklist already requires this).
+5. Record provenance + licence in `NOTICE` (docs/09-Practitioner-Notes.md §8 checklist already requires this).
 
 This is the same "pipeline A" idea as docs/06, extended to *runtime UI glyphs*, not just app icons.
 
@@ -439,7 +445,7 @@ build you cannot test on every device yourself.
 | `Unresolved reference: getValue` / `setValue` | `by remember { }` without imports | import `androidx.compose.runtime.getValue` / `setValue` |
 | `unresolved: return@onDragStopped` / `return@rememberDraggableState` | labeled return inside a lambda that the compiler rejects | rewrite the drag block with `if (!unlocking) { ... }` guards instead of labeled returns |
 | `Result<Intent?>` type mismatch | `runCatching { getLaunchIntentForPackage(pkg) }` | return `Intent?` directly (see §5.2) |
-| App grey/foggy on press | upstream `InteractiveHighlight` full-bleed white | see docs/09 §1.4 `pressSheen` |
+| App grey/foggy on press | upstream `InteractiveHighlight` full-bleed white | see docs/09-Practitioner-Notes.md §1.4 `pressSheen` |
 
 ---
 
@@ -466,13 +472,13 @@ cd /tmp/work/glasskit                                    # package com.liquidgla
 | G2 squircle shapes | `io.github.kyant0:shapes:1.2.0` | Apache-2.0 | Maven Central (for `clip`/non-lens only — see §1.2) |
 | Face ID / lock glyphs | [`tabler/tabler-icons`](https://github.com/tabler/tabler-icons) `face-id` / `lock` / `lock-open` | MIT | `unpkg.com/@tabler/icons@3.48.0/icons/outline/*.svg` → vector drawable |
 | Real app icons | `assets/app-icons/` (ui-icons-hub PNGs) | per upstream | `tools/fetch_app_icons.py` (docs/06) |
-| iOS 26 wallpaper | `drawable-nodpi` WebP (light+dark) | Apple artwork | docs/09 §1.1 |
+| iOS 26 wallpaper | `drawable-nodpi` WebP (light+dark) | Apple artwork | docs/09-Practitioner-Notes.md §1.1 |
 
 ---
 
 ## 10. Release checklist — additions for a *device-shipped* iOS shell
 
-Append to the docs/09 §8 checklist:
+Append to the docs/09-Practitioner-Notes.md §8 checklist:
 
 ```
 [ ] Every drawBackdrop that uses lens() passes a Compose CornerBasedShape (RoundedCornerShape),

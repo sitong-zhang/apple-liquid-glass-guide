@@ -292,9 +292,14 @@ Key details:
   "bulges" — area of effect), the second is *refraction amount* (how strong the offset is). Increasing both = thicker glass.
 - **`refractionAmount` is negated** when passed to the shader (`-refractionAmount`) — the shader bends *toward* the edge, so
   the sign is flipped to get the correct visual direction.
-- **Corner radii are extracted from the shape.** Only `RoundedRectangularShape` (G2 squircle from `com.kyant.shapes`) or
-  `CornerBasedShape` are supported; anything else throws `UnsupportedOperationException`. This is why you must use
-  `com.kyant.shapes.RoundedRectangle`, not `androidx.compose.foundation.shape.RoundedCornerShape`.
+- **Corner radii are extracted from the shape** by the upstream `cornerRadii` getter (`effects/Lens.kt`). It accepts exactly
+  three kinds of shape: `com.kyant.shapes.RoundedRectangularShape` (the G2 squircle), `androidx.compose.foundation.shape
+  .AbsoluteRoundedCornerShape`, and any `androidx.compose.foundation.shape.CornerBasedShape` (which includes `RoundedCornerShape`
+  and `CutCornerShape`). **Everything else returns `null` and throws `UnsupportedOperationException: Only RoundedRectangularShape
+  or CornerBasedShape is supported in lens effects` at attach time → the app crashes on open.** In particular,
+  `com.kyant.shapes.RoundedRectangle` is a *different* class from `RoundedRectangularShape` and is **rejected** (it crashes).
+  So for a refracting glass use `RoundedCornerShape(...)` (safe, plain corner) or `com.kyant.shapes.RoundedRectangularShape`
+  (G2 squircle) — **never** `RoundedRectangle`. See `docs/10-Compose-Production-Field-Notes.md` §1.
 - **The shader is cached by key** (`"Refraction"` / `"RefractionWithDispersion"`) via `RuntimeShaderCache` — AGSL compilation
   is expensive, so it's compiled once and reused.
 
@@ -801,11 +806,11 @@ Everything else is detail. **Change parameters proportionally**, never one knob 
 | Can't see through glass | `onDrawSurface` color too dark (>50%) — covers all refraction | Drop tint to 5%–35% |
 | Red/blue fringes always visible | `chromaticAberration = true` static — should only open on motion | Scale lens by `progress`, only enable aberration during press/drag |
 | Edges are hard / plastic | Used `border()` instead of `Highlight` — uniform stroke vs angle-faded rim | Use `highlight = { Highlight.Default }` |
-| Corners look wrong | Used `RoundedCornerShape` (androidx) instead of `com.kyant.shapes.RoundedRectangle` (G2 squircle) — `lens()` throws on unsupported shapes | Use `RoundedRectangle` / `Capsule` from `com.kyant.shapes` |
+| Corners look wrong (aesthetic, not a crash) | Used plain `RoundedCornerShape` (androidx) where you wanted Apple's G2-continuous squircle | For `clip()`/non-lens glass use `com.kyant.shapes.RoundedRectangle` (G2). **Caveat:** if `lens()` is in `effects`, `RoundedRectangle` crashes the app (docs/10 §1) — there use `RoundedCornerShape` or `com.kyant.shapes.RoundedRectangularShape` |
 | Glass shows previous frame | Recording node and drawing node ordered backwards — content layer must draw before overlay | Ensure z-order: background (recorder) → content → overlay (sampler) |
 | Laggy / high GPU | `layerBackdrop` attached unconditionally on static page — one full-screen offscreen render per frame wasted | Conditionally attach only when an overlay actually reads it |
 | Crashes on older phones | `minSdk < 31` — no `RenderEffect`; `< 33` — no AGSL `RuntimeShader` | Set `minSdk ≥ 31` (≥33 for true refraction); effects guard themselves but the app should declare the requirement |
-| `lens()` throws `UnsupportedOperationException` | Shape is not `RoundedRectangularShape` or `CornerBasedShape` — `cornerRadii` extraction returns null | Use `com.kyant.shapes.RoundedRectangle` or `Capsule` |
+| `lens()` throws `UnsupportedOperationException` | `shape` is not accepted by the upstream `cornerRadii` getter — only `com.kyant.shapes.RoundedRectangularShape`, `androidx AbsoluteRoundedCornerShape`, or a `CornerBasedShape` (incl. `RoundedCornerShape`) work; `com.kyant.shapes.RoundedRectangle` returns null and crashes | Use `RoundedCornerShape(...)` (safe) or `com.kyant.shapes.RoundedRectangularShape` (G2 squircle); **never** `RoundedRectangle` (docs/10 §1) |
 
 ---
 
