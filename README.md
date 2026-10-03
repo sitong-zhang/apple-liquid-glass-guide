@@ -7,7 +7,7 @@
 > Every conclusion comes from a real, end-to-end development process that ran through to a compiled APK (Jetpack Compose + Backdrop 2.0.0).
 > Every parameter, every line of code, and every pitfall in this document has been verified in practice, not guessed.
 >
-> Last updated: 2026-10-03
+> Last updated: 2026-10-03 (field notes added: `docs/10-Compose-Production-Field-Notes.md`)
 
 ---
 
@@ -74,9 +74,14 @@ So the whole tech stack has just three steps:
    So do **conditional recording**: only attach `layerBackdrop` when an upper overlay actually needs to read it.
    Leaving it attached on a static page just wastes GPU for nothing.
 
-10. **Use `RoundedRectangle` from `com.kyant.shapes`, not `androidx.compose.foundation.shape`.**
-    The former is Apple's **G2-continuous curvature** (superellipse/squircle); the latter is plain rounded corners.
-    All Apple icon corners are G2-continuous; pick the wrong shape and the outline alone gives it away as fake.
+10. **Use `RoundedRectangle` from `com.kyant.shapes` for `clip()` and for blur/vibrancy glass, NOT for `drawBackdrop` when `lens()` is present.**
+    Kyant shapes give Apple's **G2-continuous curvature** (superellipse/squircle); `RoundedCornerShape` is plain rounded corners.
+    All Apple icon corners are G2-continuous; pick the wrong shape for a *non-refracting* outline and it gives itself away as fake.
+    **CRITICAL (verified on device, see `docs/10` §1):** `lens()` builds its refraction SDF only from a Compose
+    `CornerBasedShape` (`RoundedCornerShape` / `CutCornerShape` / `RoundedRectangularShape`). Handing it a
+    `com.kyant.shapes.RoundedRectangle` throws `UnsupportedOperationException: Only RoundedRectangularShape or
+    CornerBasedShape is supported in lens effects` **at attach time → the app crashes on open.** So whenever `lens()`
+    is in the `effects` block, pass `RoundedCornerShape(...)` to `drawBackdrop`'s `shape`.
 
 ---
 
@@ -95,6 +100,7 @@ experiments/                      ← you are here
 │   ├── 07-Build-and-Troubleshooting.md           ← Engineering: environment, build commands, all errors and fixes
 │   └── 08-Previous-Handover-Notes.md             ← History: full conversation handover from the previous round (26-component showcase), kept for reference
 │   └── 09-Practitioner-Notes.md                   ← Field notes: what 01–08 got wrong once shipped, + how to drop real glass onto a full iOS-style shell
+│   └── 10-Compose-Production-Field-Notes.md        ← Device-shipped field notes: the lens crash, real Face ID, asset sourcing, unlock guard, camera launch, crash banner
 ├── assets/
 │   └── app-icons/                                 ← 40 real Apple-style app icons (PNG) pulled from ui-icons-hub, + manifest + fetch script
 ├── tools/
@@ -184,7 +190,9 @@ fun GlassCard(backdrop: Backdrop, modifier: Modifier = Modifier) {
     Box(
         modifier.drawBackdrop(
             backdrop = backdrop,                       // which texture to sample
-            shape = { RoundedRectangle(32.dp) },       // G2-continuous rounded corners (Apple's squircle)
+            // ⚠ NOTE (verified, docs/10 §1): with lens() present the shape MUST be a Compose
+            // CornerBasedShape. RoundedRectangle(32.dp) from com.kyant.shapes crashes here.
+            shape = { RoundedCornerShape(32.dp) },
             effects = {
                 vibrancy()                             // ① boost saturation so the glass looks "luminous" not "grey"
                 lens(16f.dp.toPx(), 32f.dp.toPx())     // ② refraction: the whole secret of glass thickness
@@ -219,7 +227,7 @@ For concrete values see `docs/04-Material-Recipe-Table.md`.
 | Why can't I see anything through my glass? | `onDrawSurface` color is too dark and covers the refraction. Drop it to 5%–35% |
 | Why are there red/blue fringes at the edges? | `chromaticAberration = true` is always on. It should only open on press/drag |
 | Why are my glass edges hard-edged? | You used `border()`. You should use `highlight = { Highlight.Default }` |
-| Why do the rounded corners look wrong? | You used `RoundedCornerShape`. You should use `com.kyant.shapes.RoundedRectangle` |
+| Why do the rounded corners look wrong? | You used `RoundedCornerShape` for a *non-refracting* outline | Use `com.kyant.shapes.RoundedRectangle` for `clip()`/non-lens glass. **But** if `lens()` is in `effects`, you **must** use `RoundedCornerShape` — a kyant shape crashes the app (docs/10 §1). |
 | Why is my glass empty/black inside? | The backdrop recorded nothing. Check whether `layerBackdrop` is attached to the node that actually draws the background |
 | Why does the glass show the previous frame when I open a panel? | The recording node and the drawing node are ordered backwards. The content layer must draw before the overlay |
 | Why is it laggy? | `layerBackdrop` is attached unconditionally. Change it to "record only when needed" |
@@ -236,6 +244,7 @@ For concrete values see `docs/04-Material-Recipe-Table.md`.
 - **Need icons** → `06-Icons-and-Asset-Pipeline.md` (includes the real inventory of Apple icons from ui-icons-hub), and the ready-to-ship `assets/app-icons/png/`
 - **Build failing** → `07-Build-and-Troubleshooting.md`
 - **Want the hard-won lessons** → `09-Practitioner-Notes.md`: what turned out wrong, and the full recipe for an Apple-system demo (lock screen → home → open app → zoom-to-icon close → light/dark wallpaper → real app icons)
+- **Want the device-shipped war stories** → `10-Compose-Production-Field-Notes.md`: the `lens()` crash on open, real Face ID via the camera's face detector, where to pull real glyphs (Tabler), the unlock guard, launching the OEM camera, and the in-app crash banner
 
 ---
 

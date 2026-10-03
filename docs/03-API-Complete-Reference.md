@@ -182,12 +182,23 @@ This repo **does not use** it — wherever an upstream recipe works, we use the 
 import com.kyant.shapes.RoundedRectangle
 import com.kyant.shapes.Capsule
 
-shape = { RoundedRectangle(24f.dp) }   // Apple squircle (superellipse / G2)
-shape = { Capsule() }                  // fully rounded ends (buttons / bottom bar / search box)
+shape = { RoundedRectangle(24f.dp) }   // Apple squircle (superellipse / G2) — for clip() / NON-LENS glass ONLY
+shape = { Capsule() }                  // fully rounded ends (buttons / bottom bar / search box) — clip() / NON-LENS ONLY
 ```
 
-**Do not** use `androidx.compose.foundation.shape.RoundedCornerShape`.
-The difference between the two is in **curvature continuity**:
+**Do not** use `androidx.compose.foundation.shape.RoundedCornerShape` for a *non-refracting* outline —
+kyant shapes give the G2-continuous Apple corner. **BUT (verified on device, see `docs/10` §1):** if
+`lens()` is in the `effects` block, the `shape` passed to `drawBackdrop` **must** be a Compose
+`CornerBasedShape` (`RoundedCornerShape` / `CutCornerShape` / `RoundedRectangularShape`). A
+`com.kyant.shapes.RoundedRectangle` is a custom `Shape`, not a `CornerBasedShape`; `lens()`
+cannot build its refraction SDF from it and throws
+`UnsupportedOperationException: Only RoundedRectangularShape or CornerBasedShape is supported in lens effects`
+**at attach time → the app crashes on open.** (Note: `com.kyant.shapes.Capsule` was *observed to work*
+with `lens()` in our build — the lock screen used it and opened fine — so `Capsule` appears to implement
+`CornerBasedShape`. `RoundedRectangle` does not.) So for any glass that refracts, prefer
+`RoundedCornerShape(...)` of the same radius; `Capsule` is acceptable if you only need a pill.
+
+The difference between the two (for non-lens outlines) is in **curvature continuity**:
 
 | | Plain rounded corner (RoundedCornerShape) | G2 continuous curvature (kyant shapes) |
 |---|---|---|
@@ -198,7 +209,7 @@ The difference between the two is in **curvature continuity**:
 `lens()`'s shader receives **`cornerRadii: float4`**, indicating it computes the refraction band as a "rounded-rect SDF" —
 the closer the shape is to Apple's superellipse, the more natural the refraction band's width distribution.
 
-> `Capsule` also comes from `com.kyant.shapes`; it's equivalent to "a rounded rect with radius = half the short side", not `CircleShape`.
+> `Capsule` also comes from `com.kyant.shapes`; it's equivalent to "a rounded rect with radius = half the short side", not `CircleShape`. Use it for `clip()` and non-lens glass; switch to `RoundedCornerShape` whenever `lens()` is present.
 
 ---
 
@@ -481,7 +492,8 @@ data class InnerShadow(radius: Dp, offset: DpOffset, color: Color, alpha: Float)
 | missing `vibrancy()` in `effects` | glass turns gray | pair `vibrancy` with `blur` |
 | `chromaticAberration = true` always on | static red/blue color fringe | bind to `progress`, zero at rest |
 | `border()` instead of `highlight` | plastic frame | `highlight = { Highlight.Default }` |
-| `RoundedCornerShape` | rounded corners don't look like Apple | `com.kyant.shapes.RoundedRectangle` |
+| `RoundedCornerShape` used for a *non-refracting* outline | plain Android corner, not Apple squircle | `com.kyant.shapes.RoundedRectangle` (clip / non-lens glass only) |
+| `com.kyant.shapes.RoundedRectangle` passed to `drawBackdrop` **with `lens()`** | app crashes on open (`UnsupportedOperationException`) | `androidx.compose.foundation.shape.RoundedCornerShape` — **required** whenever `lens()` is present (docs/10 §1) |
 | `onDrawSurface` using 60% white | refraction fully covered | keep to 5%~35% |
 
 ---

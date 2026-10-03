@@ -98,6 +98,20 @@ The table below is the complete triple as actually landed in this repo.
 
 ---
 
+> ⚠ **SHAPE COLUMN + `lens()` — CRITICAL (verified on device, see `docs/10` §1).**
+> Every material in the table above uses `lens()` (via `Card` / `BottomSheet` / `dialog` / `controlCenterItem` /
+> `selectionIndicator` / knob recipes). The `shape` column shows the **intended** G2-continuous outline
+> (kyant `RoundedRectangle` / `Capsule`), but **`com.kyant.shapes.RoundedRectangle` is rejected by `lens()`**
+> and throws `UnsupportedOperationException: Only RoundedRectangularShape or CornerBasedShape is supported in
+> lens effects` at attach time — the app crashes on open.
+>
+> **What to actually pass to `drawBackdrop`'s `shape` when `lens()` is present:**
+> - For the `RoundedRectangle(N.dp)` rows → use `androidx.compose.foundation.shape.RoundedCornerShape(N.dp)`
+>   (same radius; the slightly-less-perfect corner is invisible at glass thickness).
+> - For the `Capsule()` rows → `Capsule` was *observed to work* with `lens()` in our build, so it is safe;
+>   `RoundedCornerShape(halfHeight)` is the 100%-safe equivalent if you want to avoid any doubt.
+> The `RoundedRectangle`/`Capsule` entries remain correct for `clip()` and for **non-lens** glass.
+
 ## 3. iOS System Colors (`IosColors`)
 
 These are the **exact colors** used in upstream components, copied directly ([IosColors.kt](../LiquidGlassShowcase/app/src/main/java/com/liquidglass/showcase/core/ios/IosColors.kt)):

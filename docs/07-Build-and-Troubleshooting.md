@@ -218,7 +218,7 @@ Each block in `app/build.gradle.kts` exists for a reason:
 | frame drops on any movement | unconditionally attached `layerBackdrop` | switch to conditional recording (`docs/02-Backdrop-Layered-Architecture` §7, `docs/05-iOS-Shell-in-Practice` §3.2) |
 | entire UI is gray, no color | missing `vibrancy()` | add `vibrancy()` as the first line of `effects` (`docs/01-Optical-Model-of-Liquid-Glass` §2) |
 | red/blue fringing on edges | chromatic aberration left on in static state | `chromaticAberration = false`, only enable on press/drag (`README` Iron Rule 4) |
-| corners look "wrong", like ordinary rounded corners | used `androidx.compose.foundation.shape.RoundedCornerShape` | use `com.kyant.shapes.RoundedRectangle` (G2 continuous curvature, `docs/03-API-Complete-Reference` §3) |
+| corners look "wrong", like ordinary rounded corners (non-refracting outline) | used `androidx.compose.foundation.shape.RoundedCornerShape` | use `com.kyant.shapes.RoundedRectangle` (G2 continuous curvature, `docs/03-API-Complete-Reference` §3) — **but NOT** as the `drawBackdrop` `shape` when `lens()` is present; there it crashes (docs/10 §1) |
 | noticeable heating on real device | recording layer does a full-screen offscreen render every frame | see §8 |
 
 ### 6.3 Compile-time class (Kotlin / Compose)

@@ -176,7 +176,9 @@ Image(painter, null, Modifier.fillMaxSize().layerBackdrop(backdrop))   // 1. rec
 Box(                                                                   // 2. sample
     Modifier.drawBackdrop(
         backdrop = backdrop,
-        shape = { RoundedRectangle(24.dp) },
+        // ⚠ CORRECTED IN PRACTICE (docs/10 §1): with lens() present the shape MUST be a Compose
+        // CornerBasedShape. RoundedRectangle(24.dp) from com.kyant.shapes crashes at attach time.
+        shape = { RoundedCornerShape(24.dp) },
         effects = { blur(16.dp); lens(12.dp, 24.dp, chromaticAberration = true) },
         highlight = { Highlight { angle = gravityAngle } },
         shadow = { Shadow(8.dp, Color.Black.copy(0.2f)) },
@@ -374,7 +376,8 @@ Every one of these compiled cleanly. Every one was found by a human looking at t
 | 1 | Grey-black fog appears on press | Upstream `InteractiveHighlight` adds a full-bleed `White @ 8 %` with `BlendMode.Plus` | `pressSheen`: radial, finger-centred, clipped to the shape |
 | 2 | Four shadow blobs at the corners | Shadow drawn with a shape whose radius did not match the clip | Single shape constant shared by `shadow` and `clip` |
 | 3 | Hard cut at top/bottom edges | `lens` displacement independent of height | `A ≈ 2H` |
-| 4 | "It looks like a rounded rectangle" | `RoundedCornerShape` instead of a G2-continuous shape | `RoundedRectangle` / `Capsule` from `shapes` |
+| 4 | "It looks like a rounded rectangle" (non-refracting outline) | `RoundedCornerShape` instead of a G2-continuous shape | `RoundedRectangle` / `Capsule` from `shapes` (clip / non-lens glass only) |
+| 4b | App crashes on open with `UnsupportedOperationException … in lens effects` | `com.kyant.shapes.RoundedRectangle` handed to `drawBackdrop` **with `lens()`** — `lens` only accepts a Compose `CornerBasedShape` (`Capsule` was observed to work, `RoundedRectangle` does not) | `RoundedCornerShape(...)` whenever `lens()` is in `effects` (docs/10 §1) |
 | 5 | Transition stutters | Content re-laid out at every interpolated size | Lay out at final size, `graphicsLayer { scaleX/Y }` only |
 | 6 | Lands on the home screen, and the desk is visible through the lock screen | `IosLockScreen` was transparent; lock wallpaper missing | Lock screen owns an opaque wallpaper + its own backdrop (§1.2) |
 | 7 | White stripe across the bottom | `navigationBarColor = transparent` + `windowLightNavigationBar = true` on a dark, edge-to-edge surface | Black navigation bar, `isAppearanceLightNavigationBars = false`, `setNavigationBarContrastEnforced(false)` |

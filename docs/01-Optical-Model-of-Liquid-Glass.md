@@ -40,7 +40,9 @@ The vast majority of knock-offs fail at cue 6 — they paint the glass as a semi
 ```kotlin
 Modifier.drawBackdrop(
     backdrop = backdrop,
-    shape = { RoundedRectangle(24.dp) },
+    // ⚠ VERIFIED (docs/10 §1): with lens() present the shape MUST be a Compose CornerBasedShape.
+    // RoundedRectangle(24.dp) from com.kyant.shapes crashes at attach time. Use RoundedCornerShape.
+    shape = { RoundedCornerShape(24.dp) },
     effects = {
         vibrancy()                      // ⑦ color correction (corrects the gray from ②)
         blur(8f.dp.toPx())              // ② background blur
