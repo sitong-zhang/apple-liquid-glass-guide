@@ -37,7 +37,7 @@ data class IosApp(
 /**
  * The simulator's app set: one dock row plus two home-screen pages.
  *
- * Every glyph is taken 1:1 from the `Lucide` set bundled in the user's own asset hub
+ * Every glyph is taken 1:1 from the `Lucide` set bundled in the project's own asset hub
  * (ui-icons-hub, ISC licence) — see `tools/generate_ios_glyphs.py`. The squircle gradients
  * are the simulator's own decoration and carry no Apple artwork.
  */

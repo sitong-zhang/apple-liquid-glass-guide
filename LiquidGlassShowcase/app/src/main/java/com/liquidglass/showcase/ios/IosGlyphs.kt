@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
  * GENERATED FILE — do not edit by hand. Regenerate with
  * `tools/generate_ios_glyphs.py`.
  *
- * Geometry is taken 1:1 from the `Lucide` set bundled in the user's own asset hub
+ * Geometry is taken 1:1 from the `Lucide` set bundled in the project's own asset hub
  * (ui-icons-hub, ISC licence). Only the container format changed (SVG -> Compose
  * [ImageVector]); no path has been redrawn or re-tuned.
  */
