@@ -78,7 +78,7 @@ import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.shadow.InnerShadow
 import com.kyant.backdrop.shadow.Shadow
 import com.kyant.shapes.Capsule
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.core.glass.GlassMaterials
 import com.liquidglass.showcase.core.ios.GlassIcons
 import com.liquidglass.showcase.core.ios.IosColors
@@ -500,7 +500,7 @@ fun GlassTextField(
     isLightTheme: Boolean = true
 ) {
     val contentColor = IosColors.content(isLightTheme)
-    val shape = RoundedRectangle(32f.dp)
+    val shape = RoundedCornerShape(32f.dp)
     Column(
         modifier
             .drawBackdrop(

@@ -64,7 +64,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kyant.backdrop.Backdrop
 import com.kyant.shapes.Capsule
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.components.GlassCard
 import com.liquidglass.showcase.components.GlassIcon
 import kotlinx.coroutines.flow.collectLatest
@@ -226,12 +226,12 @@ private fun IosHomeIcon(
                 .size(IconSize)
                 .shadow(
                     elevation = 10.dp,
-                    shape = RoundedRectangle(IconCorner),
+                    shape = RoundedCornerShape(IconCorner),
                     clip = false,
                     ambientColor = Color.Black.copy(alpha = 0.4f),
                     spotColor = Color.Black.copy(alpha = 0.4f)
                 )
-                .clip(RoundedRectangle(IconCorner))
+                .clip(RoundedCornerShape(IconCorner))
                 .background(Brush.linearGradient(listOf(app.top, app.bottom)))
                 .combinedClickable(
                     interactionSource = null,
@@ -336,12 +336,12 @@ private fun IosDockIcon(app: IosApp, state: IosShellState) {
             .size(56.dp)
             .shadow(
                 elevation = 8.dp,
-                shape = RoundedRectangle(14.dp),
+                shape = RoundedCornerShape(14.dp),
                 clip = false,
                 ambientColor = Color.Black.copy(alpha = 0.35f),
                 spotColor = Color.Black.copy(alpha = 0.35f)
             )
-            .clip(RoundedRectangle(14.dp))
+            .clip(RoundedCornerShape(14.dp))
             .background(Brush.linearGradient(listOf(app.top, app.bottom)))
             .clickable(interactionSource = null, indication = null) {
                 state.openApp(app, bounds, gallery = false)

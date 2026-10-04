@@ -59,7 +59,7 @@ import com.kyant.backdrop.effects.vibrancy
 import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.highlight.HighlightStyle
 import com.kyant.shapes.Capsule
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.core.glass.GlassMaterials
 import com.liquidglass.showcase.core.ios.GlassIcons
 import com.liquidglass.showcase.core.ios.IosColors
@@ -70,7 +70,7 @@ import com.liquidglass.showcase.core.utils.rememberUISensor
  *
  * Material: upstream `destinations/DialogContent.kt`
  * (`colorControls(brightness, saturation = 1.5)` + `blur(16/8.dp)` + `lens(24.dp, 48.dp, depthEffect)`)
- * with `Highlight.Plain` and `RoundedRectangle(48.dp)`, plus the upstream dim layer.
+ * with `Highlight.Plain` and `RoundedCornerShape(48.dp)`, plus the upstream dim layer.
  * The two action buttons are glass-on-glass and use the documented `exportedBackdrop` technique.
  */
 @Composable
@@ -89,7 +89,7 @@ fun BoxScope.GlassDialog(
     val containerColor = IosColors.dialogContainer(isLightTheme)
     val dimColor = IosColors.dim(isLightTheme)
     val accentColor = IosColors.accent(isLightTheme)
-    val shape = RoundedRectangle(48f.dp)
+    val shape = RoundedCornerShape(48f.dp)
     val panelBackdrop = rememberLayerBackdrop()
 
     AnimatedVisibility(
@@ -225,7 +225,7 @@ fun BoxScope.GlassAlert(
     val contentColor = IosColors.content(isLightTheme)
     val containerColor = IosColors.dialogContainer(isLightTheme)
     val dimColor = IosColors.dim(isLightTheme)
-    val shape = RoundedRectangle(48f.dp)
+    val shape = RoundedCornerShape(48f.dp)
 
     AnimatedVisibility(
         visible = visible,
@@ -309,7 +309,7 @@ fun BoxScope.GlassAlert(
  * iOS action sheet.
  *
  * Material: upstream `tutorials/glass-bottom-sheet`
- * (`vibrancy()` + `blur(4.dp)` + `lens(24.dp, 48.dp, depthEffect = true)` on `RoundedRectangle(44.dp)`,
+ * (`vibrancy()` + `blur(4.dp)` + `lens(24.dp, 48.dp, depthEffect = true)` on `RoundedCornerShape(44.dp)`,
  * surface `Color.White @ 50%`).
  */
 @Composable
@@ -324,7 +324,7 @@ fun BoxScope.GlassActionSheet(
 ) {
     val contentColor = IosColors.content(isLightTheme)
     val dimColor = IosColors.dim(isLightTheme)
-    val shape = RoundedRectangle(44f.dp)
+    val shape = RoundedCornerShape(44f.dp)
     val sheetBackdrop = rememberLayerBackdrop()
 
     AnimatedVisibility(
@@ -469,7 +469,7 @@ fun BoxScope.GlassPopoverMenu(
 ) {
     val contentColor = IosColors.content(isLightTheme)
     val containerColor = IosColors.dialogContainer(isLightTheme)
-    val shape = RoundedRectangle(48f.dp)
+    val shape = RoundedCornerShape(48f.dp)
 
     AnimatedVisibility(
         visible = visible,
@@ -535,7 +535,7 @@ fun GlassPicker(
     isLightTheme: Boolean = true
 ) {
     val contentColor = IosColors.content(isLightTheme)
-    val shape = RoundedRectangle(44f.dp)
+    val shape = RoundedCornerShape(44f.dp)
     Box(
         modifier
             .drawBackdrop(
@@ -612,7 +612,7 @@ fun GlassControlCenter(
     val itemSpacing = 16f.dp
     val itemSize = 68f.dp
     val itemTwoSpanSize = itemSize * 2 + itemSpacing
-    val itemShape: Shape = RoundedRectangle(itemSize / 2f)
+    val itemShape: Shape = RoundedCornerShape(itemSize / 2f)
 
     val glassHighlight = {
         Highlight(

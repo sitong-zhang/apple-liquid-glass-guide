@@ -75,7 +75,7 @@ import com.kyant.backdrop.highlight.Highlight
 import com.kyant.backdrop.shadow.InnerShadow
 import com.kyant.backdrop.shadow.Shadow
 import com.kyant.shapes.Capsule
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.core.glass.GlassMaterials
 import com.liquidglass.showcase.core.ios.GlassIcons
 import com.liquidglass.showcase.core.ios.IosColors
@@ -547,7 +547,7 @@ fun GlassCheckbox(
     modifier: Modifier = Modifier,
     isLightTheme: Boolean = true
 ) {
-    val shape = RoundedRectangle(12f.dp)
+    val shape = RoundedCornerShape(12f.dp)
     Box(
         modifier
             .drawBackdrop(

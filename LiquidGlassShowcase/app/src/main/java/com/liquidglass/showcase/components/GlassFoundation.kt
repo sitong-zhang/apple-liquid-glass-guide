@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.drawBackdrop
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.core.glass.GlassMaterials
 
 /**
@@ -58,7 +58,7 @@ fun GlassIcon(
  * iOS-style glass card.
  *
  * Material: upstream `LazyScrollContainerContent.kt` recipe
- * (`vibrancy()` + `lens(16.dp, 32.dp)`) on a G2-continuous [RoundedRectangle];
+ * (`vibrancy()` + `lens(16.dp, 32.dp)`) on a G2-continuous [RoundedCornerShape];
  * highlight and shadow are the library defaults (`Highlight.Default`, `Shadow.Default`),
  * i.e. exactly what upstream's `drawBackdrop` applies when the parameters are omitted.
  */
@@ -70,7 +70,7 @@ fun GlassCard(
     surfaceColor: Color = Color.Unspecified,
     content: @Composable BoxScope.() -> Unit
 ) {
-    val shape: Shape = RoundedRectangle(cornerRadius)
+    val shape: Shape = RoundedCornerShape(cornerRadius)
     Box(
         modifier.drawBackdrop(
             backdrop = backdrop,

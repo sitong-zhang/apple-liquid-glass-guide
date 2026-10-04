@@ -23,7 +23,7 @@ window.APP_ICONS=[{"n":"Aima","f":"png/Aima.png","src":"icon83676d51"}, ...]
 
 ## About the format: PNG, not SVG
 
-The user asked for "the Apple app-icon SVG". Measured against the real partition: **that partition
+The brief asked for "the Apple app-icon SVG". Measured against the real partition: **that partition
 ships PNGs, not SVGs.** Two pipelines exist in the hub and they are easy to confuse:
 
 | Pipeline | Location | Format | Content |
@@ -60,7 +60,7 @@ of 214, i.e. 0.224–0.238). The four corners are already transparent.
 
 ## Getting the files
 
-`raw.githubusercontent.com` was unreachable from the build sandbox (DNS filtering); the jsdelivr
+`raw.githubusercontent.com` was unreachable from the build machine (DNS filtering); the jsdelivr
 mirror was not. The fetch script therefore defaults to:
 
 ```

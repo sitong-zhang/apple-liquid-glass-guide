@@ -1,8 +1,8 @@
 # 10 · Compose Production Field Notes — Building a Real iOS Shell with Backdrop 2.0.0
 
 > This chapter is written **after shipping APKs `苹果系统(14)` and `苹果系统(15)`** to a real phone
-> (Huawei EMUI / API 31+), and after fixing a crash-on-open plus four iOS-fidelity defects the user
-> reported in one session.
+> (Huawei EMUI / API 31+), and after fixing a crash-on-open plus four iOS-fidelity defects found
+> in on-device testing.
 >
 > It is the **field supplement** to chapters 01–09. Where 01–09 describe the *theory and the API*,
 > this chapter describes what actually breaks on hardware, the exact root causes, the verified fixes,
@@ -117,9 +117,9 @@ thickness), and reserve kyant shapes for non-refracting outlines. The refraction
 
 ### 1.5 Inline corrections made alongside this chapter
 
-To stop the next reader from copying crash code, the following prior-AI passages were corrected
-(this is allowed: the rule is "modify only what you have personally practiced and confirmed wrong",
-and this crash was reproduced end-to-end):
+To stop the next reader from copying crash code, the following passages in the earlier chapters
+were corrected in this revision (the crash behind them was reproduced end-to-end before any of
+them was changed):
 
 - `README.md` §1 Iron Rule #10 — now carries the lens exception.
 - `README.md` §3.3 `GlassCard` example — `shape` changed to `RoundedCornerShape(32.dp)` and noted.
@@ -133,8 +133,8 @@ and this crash was reproduced end-to-end):
 
 ## 2. REAL FACE ID — a sensor, not a timer or an animation
 
-The user's requirement, emphatically repeated: *"real iOS does NOT show a camera-scan overlay; Face ID
-pops from the Dynamic Island; and don't you dare draw the lock yourself — find resources."*
+The requirement, stated as a hard rule: *real iOS shows no camera-scan overlay; Face ID pops from
+the Dynamic Island; the lock glyph must come from a real asset library — never hand-drawn.*
 
 ### 2.1 What real iOS Face ID is (and is not)
 
@@ -267,10 +267,10 @@ Image(   // real Tabler lock, opens when recognised
 
 ---
 
-## 3. WHERE TO GET REAL ASSETS — "找资源", never hand-draw
+## 3. WHERE TO GET REAL ASSETS — find them, never hand-draw
 
-This was the single most repeated instruction from the user: *don't programmatically generate glyphs;
-go find high-star GitHub resources.* He was right, and it is also the lazier path once you know the
+The single most repeated instruction during review: *don't programmatically generate glyphs; go
+find high-star GitHub resources.* It is the right call, and also the lazier path once you know the
 trick.
 
 ### 3.1 The hard rule
@@ -293,7 +293,7 @@ for free.
 
 ### 3.3 Why `unpkg.com`, not `raw.githubusercontent.com` / `cdn.jsdelivr.net`
 
-In the build sandbox, `raw.githubusercontent.com` and `cdn.jsdelivr.net` **timed out / 404'd from
+On the build machine, `raw.githubusercontent.com` and `cdn.jsdelivr.net` **timed out / 404'd from
 `curl`**, but **`unpkg.com` worked**. So the reliable fetch for any npm-published icon set is:
 
 ```bash

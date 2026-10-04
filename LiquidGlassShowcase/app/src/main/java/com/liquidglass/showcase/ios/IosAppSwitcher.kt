@@ -57,7 +57,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.components.GlassIcon
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -171,7 +171,7 @@ private fun IosSwitcherCard(
         Box(
             Modifier
                 .padding(bottom = 10.dp)
-                .clip(RoundedRectangle(9.dp))
+                .clip(RoundedCornerShape(9.dp))
                 .background(Brush.linearGradient(listOf(app.top, app.bottom)))
                 .size(34.dp),
             contentAlignment = Alignment.Center
@@ -189,7 +189,7 @@ private fun IosSwitcherCard(
             Modifier
                 .fillMaxWidth()
                 .aspectRatio(0.62f)
-                .clip(RoundedRectangle(28.dp))
+                .clip(RoundedCornerShape(28.dp))
                 .background(Brush.verticalGradient(listOf(app.bottom, app.top))),
             contentAlignment = Alignment.TopCenter
         ) {
@@ -218,7 +218,7 @@ private fun PreviewBar(widthFraction: Float) {
         Modifier
             .fillMaxWidth(widthFraction)
             .height(12.dp)
-            .clip(RoundedRectangle(6.dp))
+            .clip(RoundedCornerShape(6.dp))
             .background(Color.White.copy(alpha = 0.34f))
     )
 }

@@ -61,7 +61,7 @@ import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.backdrops.LayerBackdrop
 import com.kyant.backdrop.backdrops.layerBackdrop
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.components.GlassCard
 import com.liquidglass.showcase.components.GlassIcon
 import com.liquidglass.showcase.core.ios.IosColors
@@ -129,7 +129,7 @@ fun BoxScope.IosAppWindow(
                     width = with(density) { width.toDp() },
                     height = with(density) { height.toDp() }
                 )
-                .clip(RoundedRectangle(with(density) { corner.toDp() }))
+                .clip(RoundedCornerShape(with(density) { corner.toDp() }))
         ) {
             Box(
                 Modifier
@@ -218,7 +218,7 @@ private fun IosAppPlaceholder(
         Box(
             Modifier
                 .size(84.dp)
-                .clip(RoundedRectangle(20.dp))
+                .clip(RoundedCornerShape(20.dp))
                 .background(Brush.linearGradient(listOf(app.top, app.bottom))),
             contentAlignment = Alignment.Center
         ) {

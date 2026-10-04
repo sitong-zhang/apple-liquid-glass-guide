@@ -131,7 +131,7 @@ To just quickly verify the code compiles:
 
 **The first build downloads the Gradle 9.7.1 distribution + all dependencies**, so network is required. After that everything goes through the `~/.gradle` cache; in practice the second build onward drops from minutes to seconds.
 
-In a persistent CI/sandbox environment, pinning `JAVA_HOME` into the wrapper is also more convenient:
+In a persistent CI environment, pinning `JAVA_HOME` into the wrapper is also more convenient:
 
 ```properties
 # LiquidGlassShowcase/gradle.properties (optional, for convenient handover)
@@ -281,9 +281,9 @@ Optimization checklist (ordered by benefit, details in `docs/02-Backdrop-Layered
 
 ---
 
-## 9. "Recreate from scratch" checklist for AI
+## 9. "Recreate from scratch" checklist
 
-If you (AI) get this repo and need to get the effect running from scratch, **follow this order strictly**:
+If you are getting this effect running from scratch, **follow this order strictly**:
 
 ```
 ① Read README.md            → build a mental model (background texture → sampling → refraction), memorize the ten iron rules

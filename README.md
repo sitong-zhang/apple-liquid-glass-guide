@@ -1,7 +1,7 @@
 # Apple Liquid Glass Implementation Guide
 
-> **This document is written for an AI assistant.**
-> It has one goal only: **to let any AI, by reading only this repository, build the Apple iOS 26 "liquid glass" effect on native Android**,
+> **This guide is self-contained.**
+> It has one goal only: **to let anyone, by reading only this repository, rebuild the Apple iOS 26 "liquid glass" effect on native Android**,
 > and get it right — not the cheap counterfeit of "translucency + Gaussian blur", but real glass with **refraction, chromatic aberration, edge highlights, and gravity response**.
 >
 > Every conclusion comes from a real, end-to-end development process that ran through to a compiled APK (Jetpack Compose + Backdrop 2.0.0).
@@ -16,7 +16,7 @@
 > **This project is built entirely from the upstream [**Kyant0/AndroidLiquidGlass**](https://github.com/Kyant0/AndroidLiquidGlass) (the Compose Multiplatform "Backdrop" liquid-glass engine, published as `io.github.kyant0:backdrop:2.0.0`).**
 > Everything in this repository — every effect, every API, every material recipe — is explained and implemented **strictly according to that link**. There is no other source of truth.
 
-**If you are an AI and someone hands you this repository, do this before touching anything:**
+**If you are picking up this repository cold, do this before touching anything:**
 
 1. **Read the upstream first**: `https://github.com/Kyant0/AndroidLiquidGlass`
    — its `README.md` and `Documentation` (the Backdrop catalog) are the ground truth for how liquid glass actually works.
@@ -111,7 +111,7 @@ So the whole tech stack has just three steps:
 ## 2. Repository Map
 
 ```
-experiments/                      ← you are here
+apple-liquid-glass-guide/         ← you are here
 ├── README.md                     ← this document (the overview; read this first)
 ├── UPSTREAM-README.md            ← the authoritative-upstream archive guide (see below)
 ├── upstream/
@@ -124,7 +124,7 @@ experiments/                      ← you are here
 │   ├── 05-iOS-Shell-in-Practice.md               ← In practice: how to assemble home / lock / control center / transitions
 │   ├── 06-Icons-and-Asset-Pipeline.md            ← Assets: how to use ui-icons-hub (with the real "Apple app-icon zoning" list)
 │   ├── 07-Build-and-Troubleshooting.md           ← Engineering: environment, build commands, all errors and fixes
-│   ├── 08-Previous-Handover-Notes.md             ← History: full conversation handover from the previous round (26-component showcase), kept for reference
+│   ├── 08-Previous-Handover-Notes.md             ← History: handover notes from the previous round (26-component showcase), kept for reference
 │   ├── 09-Practitioner-Notes.md                   ← Field notes: what 01–08 got wrong once shipped, + how to drop real glass onto a full iOS-style shell
 │   ├── 09-How-Liquid-Glass-Is-Implemented.md     ← ★ READ THIS: explains, from the upstream source, exactly how liquid glass is implemented (recorder→sampler→AGSL refraction shader→highlight)
 │   └── 10-Compose-Production-Field-Notes.md        ← Device-shipped field notes: the lens crash, real Face ID, asset sourcing, unlock guard, camera launch, crash banner

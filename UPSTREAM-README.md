@@ -2,7 +2,7 @@
 
 > **This directory is a verbatim, complete copy of the upstream repository** [**Kyant0/AndroidLiquidGlass**](https://github.com/Kyant0/AndroidLiquidGlass),
 > the Compose Multiplatform "Liquid Glass (Backdrop)" engine. It is archived here so that this repository stays
-> **self-contained**: any AI or developer who receives this repository can read and build against the real upstream source
+> **self-contained**: any developer who receives this repository can read and build against the real upstream source
 > without having to fetch it from GitHub again.
 >
 > Upstream commit archived at: `2026-10-02` · Upstream license: **Apache-2.0**
@@ -67,7 +67,7 @@ upstream/AndroidLiquidGlass/
 | `docs/05-iOS-Shell-in-Practice.md` | our `LiquidGlassShowcase/…/ios/*` (an Android-native re-assembly of the upstream Catalog ideas) |
 | `docs/06-Icons-and-Asset-Pipeline.md` | `app/…/composeResources/drawable/*` + our `tools/` |
 | `docs/07-Build-and-Troubleshooting.md` | upstream `backdrop/build.gradle.kts`, `androidApp/build.gradle.kts` |
-| `docs/08-Previous-Handover-Notes.md` | historical conversation record (context only) |
+| `docs/08-Previous-Handover-Notes.md` | historical handover record (context only) |
 | `docs/09-How-Liquid-Glass-Is-Implemented.md` | **the whole engine**: `DrawBackdropModifier.kt`, `backdrops/*`, `effects/*`, `internal/Shaders.kt`, `highlight/*`, `shadow/*` — a line-by-line walk of how the effect works |
 
 ---

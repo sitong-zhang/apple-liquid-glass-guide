@@ -2,8 +2,8 @@
 
 > This chapter is **written after the thing was actually built, installed and complained about.**
 > Chapters 01–08 were written from reading the upstream code; this one is written from
-> `gradlew assembleRelease` runs, from an APK opened on a phone, and from eight defects the user
-> reported in one message.
+> `gradlew assembleRelease` runs, from an APK opened on a phone, and from eight defects found in
+> on-device testing.
 >
 > Two jobs:
 >
@@ -21,7 +21,7 @@ Everything below was stated or implied earlier and **did not survive contact wit
 Ch. 05 §12 argued for a hand-painted gradient-mesh wallpaper, on the grounds of "no third-party
 art assets." The reasoning about *contrast* was right; the conclusion was wrong.
 
-What the user said after installing it:
+What came back after installing it on the phone:
 
 > Why isn't the home screen using that most classic Apple wallpaper?
 
@@ -48,7 +48,7 @@ Practicalities measured while doing it:
 Ch. 05 §14.2 proposed replacing `surface: IosSurface` with a continuous `unlockProgress`, so that
 "seeing the home through the lock screen becomes the design intent."
 
-**Don't.** The user's complaint was not "I want a fancy cross-fade." It was:
+**Don't.** The complaint was not "I want a fancy cross-fade." It was:
 
 > Shouldn't I land on the lock screen? And why can I see the home screen straight through it?
 
@@ -86,14 +86,14 @@ Two smaller corrections in the same area:
 
 ### 1.3 "Vector line-art glyphs are fine for home icons" — wrong
 
-Ch. 05 §14.1 already flagged this and Ch. 06 §8 planned the migration. Confirmed: the user asked
-twice, and the second time with emphasis. The migration is done — see §5.
+Ch. 05 §14.1 already flagged this and Ch. 06 §8 planned the migration. Device feedback confirmed
+it twice, the second time with emphasis. The migration is done — see §5.
 
 ### 1.4 "Press feedback: animate `Highlight.Default.copy(alpha = progress)`" — wrong, it makes grey fog
 
 Upstream's `InteractiveHighlight.modifier` paints a **full-bleed** `White @ 8 %` rect with
 `BlendMode.Plus`. On a dark wallpaper that is not a highlight, it is a **grey veil**: press any
-button and a flat fog appears over the whole control. The user's words:
+button and a flat fog appears over the whole control. The exact words:
 
 > When I press and hold the wallpaper button, why does a layer of grey-black fog appear over it?
 
@@ -197,6 +197,12 @@ Rules that keep it coherent:
 
 ### 2.4 Parameters that read as "Apple"
 
+> **These are hand-tuned shell values, not the upstream 1:1 recipes.** The verbatim upstream
+> parameters live in [`GlassMaterials.kt`](../LiquidGlassShowcase/app/src/main/java/com/liquidglass/showcase/core/glass/GlassMaterials.kt)
+> and are tabulated in [docs/04](04-Material-Recipe-Table.md) — e.g. Button =
+> `vibrancy(); blur(2.dp); lens(12.dp, 24.dp)` and Card = `vibrancy(); lens(16.dp, 32.dp)` (no blur).
+> Use the upstream values when the goal is a 1:1 replica; use this table when tuning a bespoke shell.
+
 | Surface | Blur | Lens (H, A) | Surface tint | Notes |
 |---|---|---|---|---|
 | Small control (button, toggle) | 8 dp | 5 / 10 | white 10–14 % | Add `InnerShadow(4.dp * press)` |
@@ -247,7 +253,7 @@ See §1.2. Text is **always white**, in light and dark theme alike — it always
 The window is laid out once at real screen size and only *scaled* by `graphicsLayer`; that way
 text never reflows mid-animation.
 
-Closing is **two beats**, and this is what the user was missing when he said "it just disappears":
+Closing is **two beats** — a one-beat close is exactly why it read as "it just disappears":
 
 ```
 beat 1 (0 → 0.62)   full screen  →  the icon rectangle it grew out of
@@ -314,7 +320,7 @@ the panel open on a flick you did not mean; distance alone makes it feel heavy.
 ### 4.3 The system back key
 
 Without `BackHandler`, back exits the whole app from anywhere — including from inside an app
-window, which is exactly what the user reported. Walk the shell down one level per press:
+window, which is exactly the reported symptom. Walk the shell down one level per press:
 
 ```kotlin
 BackHandler(enabled = !state.isLocked) {
@@ -387,7 +393,7 @@ Every one of these compiled cleanly. Every one was found by a human looking at t
 | 11 | Control centre / notification centre never open | Pull zones had **zero height** (§4.1) | `fillMaxHeight()` |
 | 12 | Back exits the whole app | No `BackHandler` | Level-by-level back stack (§4.3) |
 
-Also fixed, cheaply: app label ("Liquid Glass" → the name the user asked for) lives in
+Also fixed, cheaply: app label ("Liquid Glass" → the final requested name) lives in
 `strings.xml`, not in the manifest; and `IosAppSwitcher`'s `if (!visible) return` is what keeps an
 invisible `LazyRow` out of layout — keep it.
 

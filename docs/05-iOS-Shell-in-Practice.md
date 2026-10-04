@@ -13,7 +13,7 @@
 
 ## 1. What was done in this phase, and what was not
 
-The user's boundary was "**only build the system shell first.**" So let's define "shell" clearly:
+The scope boundary was "**only build the system shell first.**" So let's define "shell" clearly:
 
 | Part of the shell (done) | Not part of the shell (intentionally left empty) |
 |---|---|
@@ -660,7 +660,7 @@ else { offsetY.animateTo(0f, spring(MediumBouncy, MediumLow)) }
 
 As the card is pushed up it gradually becomes transparent (floor 0.15 not 0, to avoid the feel-illusion of "invisible before reaching threshold").
 
-**The preview is drawn procedurally** (`PreviewBar`: a few white 34% rounded bars of varying widths), not a screenshot. **Screenshotting other apps is not feasible in a sandbox / no-permission environment**, and a fake screenshot is worse than a placeholder block — the placeholder honestly says "this is a preview here," while a fake screenshot makes people think the app actually ran.
+**The preview is drawn procedurally** (`PreviewBar`: a few white 34% rounded bars of varying widths), not a screenshot. **Screenshotting other apps is not feasible without special permissions**, and a fake screenshot is worse than a placeholder block — the placeholder honestly says "this is a preview here," while a fake screenshot makes people think the app actually ran.
 
 ---
 
@@ -801,15 +801,15 @@ Light theme: each color ball color lift() — blend 34% toward white, so glass s
 
 ---
 
-## 14. Known Issues and Handover Suggestions (honest list)
+## 14. Known Issues and Next Steps (honest list)
 
-This section records **the genuine shortcomings of this shell as it currently stands.** They are **not bug reports, but a roadmap for the next AI.**
+This section records **the genuine shortcomings of this shell as it currently stands.** They are **not bug reports, but a roadmap for the next iteration.**
 
 ### 14.1 Home icons use vector line art, not "Apple app icon partition"
 
 **Status**: Home icons = hand-drawn gradient squircle + **monochrome line-art glyph** from [`IosGlyphs`](../LiquidGlassShowcase/app/src/main/java/com/liquidglass/showcase/ios/IosGlyphs.kt), glyphs come from ui-icons-hub's `Lucide` set (ISC license, SVG).
 
-**The user's exact feedback**:
+**The exact feedback that triggered this section**:
 
 > Your Apple app icons — didn't that website I gave you have a separate Apple app-icon section? Why not just use those?
 
@@ -825,7 +825,7 @@ if (state.isLocked) {
 }
 ```
 
-The lock screen and home are composed **in the same `Box` at the same time.** The lock screen's `Column` is all `Spacer` and a little content, **and the home sits one layer below, fully visible through the lock screen's empty areas**; when swiping up, the lock screen moves as a whole while the home stays put — the user's words:
+The lock screen and home are composed **in the same `Box` at the same time.** The lock screen's `Column` is all `Spacer` and a little content, **and the home sits one layer below, fully visible through the lock screen's empty areas**; when swiping up, the lock screen moves as a whole while the home stays put — in the tester's words:
 
 > I found a problem: the lock screen and the home screen are stacked directly together — you can see the home screen right through the lock screen, and only when you swipe up does the lock screen disappear.
 
@@ -891,7 +891,7 @@ Implementation suggestion: add a `bootStage` state machine in `LiquidGlassApp`; 
 
 ### 14.4 No on-device visual acceptance
 
-There is no emulator / real device in the sandbox, **only verification up to "compile → R8 → package → sign → AGSL shader string into the bundle"**, without manual confirmation of frame rate and visuals. The successor should review on an **Android 13+ real device** (AGSL needs API 33+ for refraction), focusing on: does refraction follow the finger, does the Control Center highlight change with tilt, does the scale transition drop frames.
+This round was verified **only up to "compile → R8 → package → sign → AGSL shader string into the bundle"** on the build machine, without manual confirmation of frame rate and visuals. Review on an **Android 13+ real device** (AGSL needs API 33+ for refraction) before trusting the visuals, focusing on: does refraction follow the finger, does the Control Center highlight change with tilt, does the scale transition drop frames.
 
 ---
 

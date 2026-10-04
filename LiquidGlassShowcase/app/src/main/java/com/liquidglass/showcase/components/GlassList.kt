@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.shapes.Capsule
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.core.glass.GlassMaterials
 import com.liquidglass.showcase.core.ios.GlassIcons
 import com.liquidglass.showcase.core.ios.IosColors
@@ -50,7 +50,7 @@ import com.liquidglass.showcase.core.ios.IosColors
  * iOS inset list group.
  *
  * Material: upstream `LazyScrollContainerContent.kt` card recipe
- * (`vibrancy()` + `lens(16.dp, 32.dp)`) on a `RoundedRectangle(32.dp)`.
+ * (`vibrancy()` + `lens(16.dp, 32.dp)`) on a `RoundedCornerShape(32.dp)`.
  */
 @Composable
 fun GlassListGroup(
@@ -59,7 +59,7 @@ fun GlassListGroup(
     isLightTheme: Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val shape = RoundedRectangle(32f.dp)
+    val shape = RoundedCornerShape(32f.dp)
     Column(
         modifier
             .drawBackdrop(

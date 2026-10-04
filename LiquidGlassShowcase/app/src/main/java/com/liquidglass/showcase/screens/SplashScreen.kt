@@ -47,7 +47,7 @@ import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.highlight.Highlight
 import com.kyant.shapes.Capsule
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.core.glass.GlassMaterials
 import com.liquidglass.showcase.core.ios.GlassIcons
 import com.liquidglass.showcase.core.ios.IosColors
@@ -73,7 +73,7 @@ fun BoxScope.SplashScreen(
 ) {
     val contentColor = IosColors.content(isLightTheme)
     val accentColor = IosColors.accent(isLightTheme)
-    val panelShape = RoundedRectangle(48f.dp)
+    val panelShape = RoundedCornerShape(48f.dp)
     val panelBackdrop = rememberLayerBackdrop()
     val safeProgress = progress.fastCoerceIn(0f, 1f)
 

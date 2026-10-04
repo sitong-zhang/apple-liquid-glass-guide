@@ -29,7 +29,7 @@
 | `app-icons/` | **iOS26-style app-icon partition: 797 PNGs** | ⭐ Pipeline B (§2) |
 | `search.js` / `search-data.js` | Search implementation and lightweight index | ❌ |
 | `cdn.js` | Zero-dependency browser SDK (`<script>` one-line integration) | ❌ |
-| `mcp/` / `packages/` / `skill/` | MCP server / npm package / AI skill | ❌ |
+| `mcp/` / `packages/` / `skill/` | MCP server / npm package / editor skill examples | ❌ |
 | `skills/` | Design-skill partition (software / website / game) | ❌ |
 
 ### 1.2 Data-chunk format (must know before reading pipeline A code)
@@ -144,7 +144,7 @@ window.APP_ICONS=[{"n":"Aima","f":"png/Aima.png","src":"icon83676d51"},
 - **Gradient colors**: each app in `IosAppCatalog.kt` hand-writes a `top/bottom` pair, **part of this project's decoration, containing no Apple artwork**.
 
 **Advantages**: vector, tiny (tens of KB), scales without blur, clean license, zero runtime dependency.
-**Disadvantage**: **it is not "Apple app icons"** — it's a set of generic line-art icons with an iOS-style container. This is exactly why the user pointed out "should just use that `app-icons/` partition."
+**Disadvantage**: **it is not "Apple app icons"** — it's a set of generic line-art icons with an iOS-style container. This is exactly why the review settled on the `app-icons/` partition.
 
 ---
 
@@ -345,7 +345,7 @@ data class IosApp(
 
 [`GlassIcons.kt`](../LiquidGlassShowcase/app/src/main/java/com/liquidglass/showcase/core/ios/GlassIcons.kt) (36 glyphs)
 
-**Why hand-draw**: the original plan was `androidx.compose.material:material-icons-extended`, but that library is **no longer updated** (frozen at version 1.7.8), conflicting with the user's requirement of "only use actively maintained dependencies," so it was dropped.
+**Why hand-draw**: the original plan was `androidx.compose.material:material-icons-extended`, but that library is **no longer updated** (frozen at version 1.7.8), conflicting with the project rule of "only use actively maintained dependencies," so it was dropped.
 
 Implementation is minimal: two private factories + a bunch of constants:
 
@@ -567,7 +567,7 @@ Trade-offs:
 | `backdrop` / `shapes` | Kyant0 | Apache-2.0 | Maven dependency, `NOTICE` already declares it |
 | Compose / AndroidX | Google | Apache-2.0 | Maven dependency |
 
-> **A hard rule for the successor AI: don't assume something is commercially usable just because "it's on that website."** `ui-icons-hub`'s own README says it **ships no unified license**.
+> **A hard rule: don't assume something is commercially usable just because "it's on that website."** `ui-icons-hub`'s own README says it **ships no unified license**.
 
 ---
 

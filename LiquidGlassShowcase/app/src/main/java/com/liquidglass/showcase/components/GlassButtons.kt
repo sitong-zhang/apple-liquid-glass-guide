@@ -45,7 +45,7 @@ import androidx.compose.ui.util.lerp
 import com.kyant.backdrop.Backdrop
 import com.kyant.backdrop.drawBackdrop
 import com.kyant.shapes.Capsule
-import com.kyant.shapes.RoundedRectangle
+import androidx.compose.foundation.shape.RoundedCornerShape
 import com.liquidglass.showcase.core.glass.GlassMaterials
 import com.liquidglass.showcase.core.ios.GlassIcons
 import com.liquidglass.showcase.core.ios.IosColors
@@ -309,7 +309,7 @@ fun GlassStepper(
     range: IntRange = 0..10,
     contentColor: Color = Color.Black
 ) {
-    val shape = RoundedRectangle(20f.dp)
+    val shape = RoundedCornerShape(20f.dp)
     Row(
         modifier
             .drawBackdrop(
